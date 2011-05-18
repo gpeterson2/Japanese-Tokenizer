@@ -1,0 +1,22 @@
+I want to be able to pass a japanese file or url into a program and get a list of 
+all the  words contained in it. Ideally this will then be passed through a 
+dictionary where I can get translations of all of these words, and then study
+the most common words with the ultimate goal of making studying easier.
+
+Obviously lists like this have been compiled elsewhere, but the most common
+version I've seen are based on newspaper articles and I want something at
+least a litle more focused on the things I would want to read, for example
+programming based materials. (Or whatever popular manga I happen to be
+interested in at the time...)
+
+Looking into this I've come accross the concept of n-grams, which seems to
+be a frequency analysis which is then put in some kind of dictinoary and
+used when parsing text. This was essentially the first idea I had, but
+working on that particular projects has proven to be frustrating, so I
+figured I might as well attack another section of the problem for a while.
+
+The next best approach I've discovered is to simply break the Japanese
+sentences based on non-space word boundries. Which is somewhat more
+difficult than space based text, and it won't help with compound words, but
+it will hopefully be better than nothing.
+
