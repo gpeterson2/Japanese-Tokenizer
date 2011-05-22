@@ -1,11 +1,16 @@
 #! /usr/bin/env python3
 
+import codecs
+import os
 import sys
 import unicodedata
+
+# TODO - skip the dot word separator
 
 # Probably not the best way to go about this...
 def get_char_type(char):
     ''' Returns KANJI, KANA, or NONE. '''
+
 
     if not char.strip():
         return 'NONE'
@@ -13,7 +18,7 @@ def get_char_type(char):
     try:
         char_name = unicodedata.name(char)
     except ValueError:
-        print('Error finding code name: {0}'.format(char))
+        print(u'Error finding code name: {0}'.format(char))
         return 'NONE'
 
     if 'CJK UNIFIED IDEOGRAPH' in char_name:
@@ -105,25 +110,54 @@ def main():
     # get the arg file name
     args = sys.argv
 
+    # TODO - add an arg parser
+
     if len(args) == 1:
-        print('Need to specify a file')
+        print('Need to specify a file encoding')
         sys.exit(1)
 
-    filename = args[1]
+    path = args[1]
+    outpath = 'output.txt'
+
+    encoding = ''
+    if len(args) > 2:
+        encoding = args[2]
+
+    if not encoding:
+        encoding = 'utf-8'
 
     # open file (as utf-8?)
     # the test file wasn't utf-8. It may just be how I saved it, but it didn't
     # work, so yeah, this needs some work.
 
-    encoding = 'UTF-8'
+    #encoding = 'UTF-8'
     #encoding = 'EUC-JP'
-    with open(filename, 'r', encoding=encoding) as f:
-        text = f.read()
 
-        words = list(tokenize(text))
+    paths = []
+    if os.path.isfile(path):
+        paths.append(path)
 
+    else:
+        for path, dirs, files in os.walk(path):
+            paths += [os.path.join(path, f) for f in files]
+        
+    words = []
+    for path in paths:
+        with codecs.open(path, 'r', encoding=encoding, errors='ignore') as f:
+            print(u'Reading file: {0}'.format(path))
+            text = f.read()
+
+            words += list(tokenize(text))
+            print(u'Finished file: {0}'.format(path))
+
+    output = codecs.open(outpath, 'w', encoding='utf-8')
     for (count, word) in get_word_count(words):
-        print('{0}:\t{1}'.format(count, word))
+        try:
+            encoded = word.encode('utf-8')
+            output.write(u'{0}:\t{1}\n'.format(count, word))
+            print(u'{0}:\t{1}'.format(count, word))
+        except Exception as e:
+            print(e)
 
 if __name__ == '__main__':
     main()
