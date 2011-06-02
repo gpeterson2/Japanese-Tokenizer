@@ -1,22 +1,32 @@
-I want to be able to pass a japanese file or url into a program and get a list of 
-all the  words contained in it. Ideally this will then be passed through a 
-dictionary where I can get translations of all of these words, and then study
-the most common words with the ultimate goal of making studying easier.
+﻿I created this project so that I could extract words from Japanese text so that
+I could create flashcards to study them without having to manually look each
+one up individually.
 
-Obviously lists like this have been compiled elsewhere, but the most common
-version I've seen are based on newspaper articles and I want something at
-least a litle more focused on the things I would want to read, for example
-programming based materials. (Or whatever popular manga I happen to be
-interested in at the time...)
+Obviously lists like this have been compiled elsewhere, the most common coming
+from newspaper. I wanted something more focused as for example programming
+materials will use far difficult vocabulary compared to a popular comic.
 
-Looking into this I've come accross the concept of n-grams, which seems to
-be a frequency analysis which is then put in some kind of dictinoary and
-used when parsing text. This was essentially the first idea I had, but
-working on that particular projects has proven to be frustrating, so I
-figured I might as well attack another section of the problem for a while.
+In English this would be a rather simple prospect, read in the files, split
+on whitespace or punctuation characters and call it a day. Japanese does
+not differentiation words using whitespace, making this a bit more challenging.
 
-The next best approach I've discovered is to simply break the Japanese
-sentences based on non-space word boundries. Which is somewhat more
-difficult than space based text, and it won't help with compound words, but
-it will hopefully be better than nothing.
+Modern Japanese is composed of three different alphabets:
 
+Hiragana - an alphabet of about 50 letters used as a base language to represent
+    sounds, as well as to conjugate verbs, and anything that kanji does not
+    cover.
+Katakana - an alphabet mirroring the hiragana alphabet, it is primary used for
+    foreign loan words.
+Kanji - Over 2,000 ideographs representing objects, ideas, etc.
+
+Generally a sentence will contain Kanji for nouns, verbs, and adjectives, with
+Hiragana used for conjugation purposes or to provide markers for sentence
+sections.
+
+The way most Japanese programs handle this problem is compare a given section
+of text to a weighted list of words, often with grammatical analysis.
+
+Until that can be implemented this project will use a simpler method of
+analyzing the text of a sentence looking for alphabet changes. In general
+this should isolate nouns, verbs, adjectives, etc. and will fail to break
+up compound words as well as fail to recognize verb conjugations.
