@@ -38,7 +38,7 @@ def is_char_type_change(last, current):
     last_type = get_char_type(last)
     current_type = get_char_type(current)
 
-    return (last_type != current_type, last_type, current_type)
+    return last_type != current_type
 
 def is_japanese(char):
     ''' If the character is japanese. '''
@@ -49,10 +49,8 @@ def get_jp_text(text):
     ''' Return a list of characters with non-japanese text replaced as empty strings. '''
 
     # Get rid of non-Japanese text...for now anyway
-    # Should keep in newlines/non-japanese breaks...
-
-    # TODO - is there a way to merge multiple instances of empty strings as 
-    # a single blank? Better to do it here than pass around a bunch of them.
+    # TODO - this shouldn't really be necessary, anymore
+    # it was a temporary fix for another issue.
 
     for char in text:
         yield char if is_japanese(char) else ''
@@ -70,8 +68,7 @@ def tokenize(text):
 
     for i, char in enumerate(jp_chars):
         
-        # TODO don't need the last and current type's anymore
-        is_change, l, c = is_char_type_change(last, char)
+        is_change = is_char_type_change(last, char)
 
         # make sure it's not the first
         if i > 0 and is_change:
