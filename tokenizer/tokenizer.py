@@ -66,7 +66,7 @@ def tokenize(text):
     # break up text
     last = ''
     words = []
-    word = []
+    chars = []
 
     for i, char in enumerate(jp_chars):
         
@@ -75,13 +75,13 @@ def tokenize(text):
 
         # make sure it's not the first
         if i > 0 and is_change:
-            yield ''.join(word)
-            word = [char]
+            yield ''.join(chars)
+            chars = [char]
         else:
-            word.append(char)
+            chars.append(char)
 
         last = char
 
     # get the last value
-    yield ''.join(word)
+    yield ''.join(chars)
 
