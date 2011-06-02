@@ -2,7 +2,7 @@
 
 import unittest
 
-from japanese_tokenizer.tokenizer import tokenize
+from tokenizer import tokenize
 
 class TestTokenize(unittest.TestCase):
     def test_tokenize(self):
