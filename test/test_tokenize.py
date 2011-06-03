@@ -34,9 +34,17 @@ class TestTokenize(unittest.TestCase):
 
         self.assertEqual(expected, result)
 
-    def test_get_char_type_kana(self):
-        text = u'\u306e'
-        expected = 'KANA'
+    def test_get_char_type_katakana(self):
+        text = u'\u30a2' # a
+        expected = 'KATAKANA'
+
+        result = get_char_type(text)
+
+        self.assertEqual(expected, result)
+
+    def test_get_char_type_hiragana(self):
+        text = u'\u3042' 
+        expected = 'HIRAGANA'
 
         result = get_char_type(text)
 
@@ -57,7 +65,7 @@ class TestTokenize(unittest.TestCase):
         '''
 
         text = u'\u30fc'
-        expected = 'KANA'
+        expected = 'BOTH'
 
         result = get_char_type(text)
 

@@ -7,12 +7,22 @@ import unicodedata
 __all__ = ['get_char_type', 'is_char_type_change', 'tokenize']
 
 def get_char_type(char):
-    ''' Returns KANJI, KANA, or NONE. '''
+    ''' Returns KANJI, HIRAGANA, KATAKA, BOTH or NONE. 
+        
+        NONE is somehwat misnamed for representing non-Japanese
+        characters.
+
+        BOTH appears (so far) one instance for the "prolonged sound mark"
+        which can be used with both hiragana and katakana.
+    '''
 
     # TODO - This seems too simple... It works, but relying on strings
     # in the unicode data seems wrong somehow.
 
     # TODO - This should not be using string constants
+
+    # TODO - there are probably better ways of dealing with the "both"
+    # character, although likely not here.
 
     if not char.strip():
         return 'NONE'
@@ -29,14 +39,13 @@ def get_char_type(char):
     # Originally wanted to differentiate between the two, but 
     #'KATAKANA-HIRAGANA PROLONGED SOUND MARK' counts as both
     # throwing it off.
- 
-    #elif 'KATAKANA' in char_name:
-        #return 'KATAKANA'
-    #elif 'HIRAGANA' in char_name:
-        #return 'HIRAGANA'
 
-    elif 'KATAKANA' in char_name or 'HIRAGANA' in char_name:
-        return 'KANA'
+    elif char_name == 'KATAKANA-HIRAGANA PROLONGED SOUND MARK':
+        return 'BOTH' 
+    elif 'KATAKANA' in char_name:
+        return 'KATAKANA'
+    elif 'HIRAGANA' in char_name:
+        return 'HIRAGANA'
     else:
         return 'NONE'
 
@@ -45,6 +54,13 @@ def is_char_type_change(last, current):
 
     last_type = get_char_type(last)
     current_type = get_char_type(current)
+
+    if (
+        (last_type == 'BOTH' and current_type in ['HIRAGANA', 'KATAKANA']) or
+        (last_type in ['HIRAGANA', 'KATAKANA'] and current_type == 'BOTH')
+    ):
+        return False
+        
 
     return last_type != current_type
 
