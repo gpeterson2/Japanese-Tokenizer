@@ -48,6 +48,11 @@ def is_char_type_change(last, current):
 
     return last_type != current_type
 
+def is_japanese(char):
+    ''' Checks if the given character is Japanese.'''
+
+    return get_char_type(char) != 'NONE'
+
 def tokenize(text):
     ''' Split up Japanese text. '''
 
@@ -57,6 +62,9 @@ def tokenize(text):
     chars = []
 
     for i, char in enumerate(text):
+
+        if not is_japanese(char):
+            continue
         
         is_change = is_char_type_change(last, char)
 
