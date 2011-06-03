@@ -1,14 +1,18 @@
 import unicodedata
 
-__all__ = ['get_char_type', 'is_char_type_change', 'is_japanese',
-     'get_jp_text', 'tokenize']
+# TODO - everything in here is very "functional" which does fit the overall
+# goal of the code. Nothing would really benefit from being made into a class
+# but perhaps that would improve the code?
+
+__all__ = ['get_char_type', 'is_char_type_change', 'tokenize']
 
 def get_char_type(char):
     ''' Returns KANJI, KANA, or NONE. '''
 
-    # TODO - this is a less than ideal way of dealing with character
-    # types. For the most part it works, but I'm sure there are better
-    # ways to do it.
+    # TODO - This seems too simple... It works, but relying on strings
+    # in the unicode data seems wrong somehow.
+
+    # TODO - This should not be using string constants
 
     if not char.strip():
         return 'NONE'
@@ -21,12 +25,16 @@ def get_char_type(char):
 
     if 'CJK UNIFIED IDEOGRAPH' in char_name:
         return 'KANJI'
-    # Can't use individuals because there's at least one with
-    # HIRAGANA-KATAKANA in it...
+
+    # Originally wanted to differentiate between the two, but 
+    #'KATAKANA-HIRAGANA PROLONGED SOUND MARK' counts as both
+    # throwing it off.
+ 
     #elif 'KATAKANA' in char_name:
         #return 'KATAKANA'
     #elif 'HIRAGANA' in char_name:
         #return 'HIRAGANA'
+
     elif 'KATAKANA' in char_name or 'HIRAGANA' in char_name:
         return 'KANA'
     else:
@@ -40,33 +48,15 @@ def is_char_type_change(last, current):
 
     return last_type != current_type
 
-def is_japanese(char):
-    ''' If the character is japanese. '''
-
-    return get_char_type(char) != 'NONE'
-    
-def get_jp_text(text):
-    ''' Return a list of characters with non-japanese text replaced as empty strings. '''
-
-    # Get rid of non-Japanese text...for now anyway
-    # TODO - this shouldn't really be necessary, anymore
-    # it was a temporary fix for another issue.
-
-    for char in text:
-        yield char if is_japanese(char) else ''
-
 def tokenize(text):
     ''' Split up Japanese text. '''
 
-    # Eliminate non-japanese text
-    jp_chars = get_jp_text(text)
-    
     # break up text
     last = ''
     words = []
     chars = []
 
-    for i, char in enumerate(jp_chars):
+    for i, char in enumerate(text):
         
         is_change = is_char_type_change(last, char)
 

@@ -7,12 +7,12 @@ from tokenizer import *
 class TestTokenize(unittest.TestCase):
     def test_tokenize(self):
         # Ore no Imouto ga Konna ni Kawaii Wake ga Nai
+        # The first thing that popped into my head...
+
         text = (u'\u4ffa\u306e\u59b9\u304c\u3053\u3093\u306a\u306b\u53ef'
             u'\u611b\u3044\u308f\u3051\u304c\u306a\u3044')
 
-        # Note that Wake ga nai should  be split up as well
-        # Hopefully in a later version.
-
+        # Eventually the "Wake ga nai" should also be split up
         expected = [
             u'\u4ffa',
             u'\u306e',
@@ -25,13 +25,6 @@ class TestTokenize(unittest.TestCase):
         result = list(tokenize(text))
 
         self.assertEqual(expected, result)
-
-    # Hardly exhaustive
-    def test_is_japanese_false(self):
-        self.assertFalse(is_japanese(u'q'))
-
-    def test_is_japanese_true(self):
-        self.assertTrue(is_japanese(u'\u4ffa'))
 
     def test_get_char_type_kanji(self):
         text = u'\u4ffa'
