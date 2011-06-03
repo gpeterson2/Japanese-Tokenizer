@@ -1,8 +1,9 @@
 import unicodedata
 
-# TODO - everything in here is very "functional" which does fit the overall
-# goal of the code. Nothing would really benefit from being made into a class
-# but perhaps that would improve the code?
+# TODO - everything in here is very "functional" which fits the overall
+# goal of the code perfectly fine. Currently the code wouldn't necessarily
+# benefit from moving it into classes, but doing so would at least make it
+# easier to provide alternate functionality through subclassing.
 
 __all__ = ['get_char_type', 'is_char_type_change', 'tokenize']
 
@@ -36,9 +37,10 @@ def get_char_type(char):
     if 'CJK UNIFIED IDEOGRAPH' in char_name:
         return 'KANJI'
 
-    # Originally wanted to differentiate between the two, but 
     #'KATAKANA-HIRAGANA PROLONGED SOUND MARK' counts as both
-    # throwing it off.
+    # throwing off the otherwise fairly simple proces. Although
+    # it makes sense as this character is included inside words,
+    # and wouldn't make sense to split on.
 
     elif char_name == 'KATAKANA-HIRAGANA PROLONGED SOUND MARK':
         return 'BOTH' 
@@ -70,7 +72,7 @@ def is_japanese(char):
     return get_char_type(char) != 'NONE'
 
 def tokenize(text):
-    ''' Split up Japanese text. '''
+    ''' Split Japanese text. '''
 
     # break up text
     last = ''
