@@ -1,20 +1,24 @@
-﻿I created this project so that I could extract words from Japanese text so that
-I could create flashcards to study them without having to manually look each
-one up individually.
+﻿An incredibly annoying aspect of learning a new language is having to stop
+and look up unknown words every few minutes. I started this project so that
+I could extract the words from Japanese text, make flashcards out of them,
+and then later return to the original text at that point being able to
+reasonably understand it.
 
-Obviously lists like this have been compiled elsewhere, the most common coming
-from newspaper. I wanted something more focused as for example programming
-materials will use far difficult vocabulary compared to a popular comic.
+The ulimate goal is to have this program extract words, normalize verb
+congugations, and provide translations.
 
-In English this would be a rather simple prospect, read in the files, split
+Currently it only extracts words. 
+
+In English this would be a rather simple prospect: read in the file(s), split
 on whitespace or punctuation characters and call it a day. Japanese does
 not differentiation words using whitespace, making this a bit more challenging.
 
+As a quick explanation:
+
 Modern Japanese is composed of three different alphabets:
 
-Hiragana - an alphabet of about 50 letters used as a base language to represent
-    sounds, as well as to conjugate verbs, and anything that kanji does not
-    cover.
+Hiragana - an alphabet of about 50 letters used to represent sounds, to
+     conjugate verbs, and cover anything that kanji does not cover.
 Katakana - an alphabet mirroring the hiragana alphabet, it is primary used for
     foreign loan words.
 Kanji - Over 2,000 ideographs representing objects, ideas, etc.
